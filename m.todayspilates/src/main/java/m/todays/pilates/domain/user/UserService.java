@@ -19,4 +19,8 @@ public class UserService {
 		return userMapper.getUser();
 	}
 	
+	public List getUser2() {
+		UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+		return userMapper.getUser();
+	}
 }
