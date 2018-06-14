@@ -2,8 +2,8 @@ package m.todays.pilates.common;
 
 import java.util.HashMap;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.type.Alias;
-import org.springframework.util.StringUtils;
 
 @Alias("camelmap")
 public class CamelCaseMap extends HashMap<Object, Object> {

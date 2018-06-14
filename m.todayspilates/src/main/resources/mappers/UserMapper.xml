@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="m.todays.pilates.domain.user.UserMapper">
-    <select id="getUser" parameterType="hashmap" resultType="camelmap" statementType="PREPARED">
+    <select id="getUser" resultType="camelmap" statementType="PREPARED">
         SELECT *
         FROM USER_M
+    </select>
+    <select id="loginUser" parameterType="hashmap" resultType="camelmap" statementType="PREPARED">
+        SELECT USER_CD AS "username", USER_PS as "password"
+        FROM USER_M
+        WHERE USER_CD = #{userCd}
+        	AND USER_PS = #{userPs}
     </select>
 </mapper>
