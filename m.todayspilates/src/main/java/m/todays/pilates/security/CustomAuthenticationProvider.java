@@ -44,13 +44,18 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
 		User userInfo = userService.getUserInfo(user_id, user_pw);
 
-
-
 		if (userInfo != null) {
-
 			List<GrantedAuthority> roles = new ArrayList<GrantedAuthority>();
-			roles.add(new SimpleGrantedAuthority("ROLE_USER"));
-
+			if ( userInfo.userLv.equals(CommonData.UserLv.SYSTEM)) { // 관리자는 모든 권한부여
+				roles.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+				roles.add(new SimpleGrantedAuthority("ROLE_TEACHER"));
+				roles.add(new SimpleGrantedAuthority("ROLE_USER"));
+			} else if ( userInfo.userLv.equals(CommonData.UserLv.TEACHER)) { // 선생님은 선생님권한만 부여
+				roles.add(new SimpleGrantedAuthority("ROLE_TEACHER"));
+			} else { // 나머지는 일반권한만 부여
+				roles.add(new SimpleGrantedAuthority("ROLE_USER"));
+			}
+			
 			UsernamePasswordAuthenticationToken result = new UsernamePasswordAuthenticationToken(user_id, user_pw, roles);
 			result.setDetails(new CustomUserDetails(userInfo));
 			return result;

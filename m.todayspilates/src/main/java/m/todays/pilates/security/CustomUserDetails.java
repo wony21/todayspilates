@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import m.todays.pilates.common.CommonData;
 import m.todays.pilates.domain.user.User;
 
 public class CustomUserDetails implements UserDetails {
@@ -23,6 +24,48 @@ public class CustomUserDetails implements UserDetails {
     private String misUserGrp;
     private String memberNo;
     private String empNo;
+    
+    public String getCompCd() {
+		return compCd;
+	}
+
+	public void setCompCd(String compCd) {
+		this.compCd = compCd;
+	}
+
+	public String getStorCd() {
+		return storCd;
+	}
+
+	public void setStorCd(String storCd) {
+		this.storCd = storCd;
+	}
+
+	public String getUserLv() {
+		return userLv;
+	}
+
+	public void setUserLv(String userLv) {
+		this.userLv = userLv;
+	}
+
+	public String getMemberNo() {
+		return memberNo;
+	}
+
+	public void setMemberNo(String memberNo) {
+		this.memberNo = memberNo;
+	}
+
+	public String getEmpNo() {
+		return empNo;
+	}
+
+	public void setEmpNo(String empNo) {
+		this.empNo = empNo;
+	}
+
+	
     
     public CustomUserDetails(User user) {
     	this.compCd = user.compCd;
@@ -45,9 +88,17 @@ public class CustomUserDetails implements UserDetails {
      
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();   
-        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-         
+        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+        authorities.add(new SimpleGrantedAuthority(this.userLv));
+        if ( this.userLv.equals(CommonData.UserLv.SYSTEM)) { // 관리자는 모든 권한부여
+        	authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        	authorities.add(new SimpleGrantedAuthority("ROLE_TEACHER"));
+			authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+		} else if ( this.userLv.equals(CommonData.UserLv.TEACHER)) { // 선생님은 선생님권한만 부여
+			authorities.add(new SimpleGrantedAuthority("ROLE_TEACHER"));
+		} else { // 나머지는 일반권한만 부여
+			authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+		}
         return authorities;
     }
   

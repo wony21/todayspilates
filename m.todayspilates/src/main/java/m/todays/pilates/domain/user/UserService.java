@@ -10,6 +10,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import m.todays.pilates.common.ParamNames;
+
 @Service
 public class UserService {
 	
@@ -25,8 +27,8 @@ public class UserService {
 	public Boolean loginUser(String userCd, String userPs) {
 		UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
 		Map<String, Object> parameter = new HashMap<String, Object>();
-		parameter.put("userCd", userCd);
-		parameter.put("userPs", userPs);
+		parameter.put(ParamNames.userCd, userCd);
+		parameter.put(ParamNames.userPs, userPs);
 		List userInfo = userMapper.loginUser(parameter);
 		return userInfo.size() > 0;
 	}
@@ -34,10 +36,18 @@ public class UserService {
 	public User getUserInfo(String userCd, String userPs) {
 		UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
 		Map<String, Object> parameter = new HashMap<String, Object>();
-		parameter.put("userCd", userCd);
-		parameter.put("userPs", userPs);
+		parameter.put(ParamNames.userCd, userCd);
+		parameter.put(ParamNames.userPs, userPs);
 		User userInfo = userMapper.getUserInfo(parameter);
 		return userInfo;
+	}
+	
+	public List exitUserInStor(String storCd, String userCd) {
+		UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+		Map<String, Object> parameter = new HashMap<String, Object>();
+		parameter.put(ParamNames.userCd, userCd);
+		parameter.put(ParamNames.storCd, storCd);
+		return userMapper.existUserInStor(parameter);
 	}
 	
 }

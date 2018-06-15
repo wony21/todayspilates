@@ -10,9 +10,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import m.todays.pilates.common.CommonData;
 import m.todays.pilates.common.SessionUtils;
 
 /**
@@ -29,8 +31,26 @@ public class HomeController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		String userName = SessionUtils.getCurrentUser().getUsername2();
+		String userLv = SessionUtils.getCurrentUser().getUserLv();
+		String index = "/";
+		// 권한별 접근제어
+		switch (userLv) {
+		case CommonData.UserLv.SYSTEM:
+			index = "admin/admin";
+			break;
+		case CommonData.UserLv.MEMBER:
+			index = "member/member";
+			break;
+		case CommonData.UserLv.TEACHER:
+			index = "teacher/theacher";
+			break;
+		default:
+			index = "/";
+			break;
+		}
+		
 		model.addAttribute("username", userName);
-		return "home";
+		return index;
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -44,5 +64,4 @@ public class HomeController {
 		model.addAttribute("error", error);
 		return "loginFail";
 	}
-
 }

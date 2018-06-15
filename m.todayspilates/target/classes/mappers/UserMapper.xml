@@ -11,12 +11,17 @@
         WHERE USER_CD = #{userCd}
         	AND USER_PS = #{userPs}
     </select>
-    <select id="existStorInUser" parameterType="hashmap" resultType="camelmap" statementType="PREPARED">
-    	SELECT CASE WHEN STOR_CD = #{storCd} THEN TRUE ELSE FALSE END USER_FG
-    	FROM USER_M
-    	WHERE USER_CD = #{userCd}
+    <select id="existUserInStor" parameterType="hashmap" resultType="camelmap" statementType="PREPARED">
+    	/* 매장의 사용자 */
+    	SELECT
+			  ISNULL((SELECT CASE WHEN USER_LV = '01' THEN 1 
+			                      WHEN USER_LV != '01' AND STOR_CD = #{storCd} THEN 1 
+			                 ELSE 0 END  
+			          FROM USER_M 
+			          WHERE USER_CD = #{userCd}), -99999) AS EXIST_FG
     </select>
     <select id="getUserInfo" parameterType="hashmap" resultType="User" statementType="PREPARED">
+    	/* 사용자인증정보 */
         SELECT COMP_CD AS "compCd", 
         	STOR_CD as "storCd",
         	USER_CD AS "userCd", 
