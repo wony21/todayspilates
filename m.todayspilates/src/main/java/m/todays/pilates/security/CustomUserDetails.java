@@ -8,11 +8,34 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import m.todays.pilates.domain.user.User;
+
 public class CustomUserDetails implements UserDetails {
 	 
     private static final long serialVersionUID = -4450269958885980297L;
     private String username;
+    private String username2;
     private String password;
+    private String compCd;
+    private String storCd;
+    private String userLv;
+    private String misMenuTy;
+    private String misUserGrp;
+    private String memberNo;
+    private String empNo;
+    
+    public CustomUserDetails(User user) {
+    	this.compCd = user.compCd;
+    	this.storCd = user.storCd;
+    	this.userLv = user.userLv;
+    	this.username = user.userCd;
+    	this.username2 = user.userNm;
+    	this.password = user.userPs;
+    	this.misMenuTy = user.misMenuTy;
+    	this.misUserGrp = user.misUserGrp;
+    	this.memberNo = user.memberNo;
+    	this.empNo = user.empNo;
+    }
      
     public CustomUserDetails(String userName, String password)
     {
@@ -56,5 +79,17 @@ public class CustomUserDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+    
+    public String getUsername2() {
+    	return this.username2;
+    }
+    
+    public String getMisMenuTy() {
+    	return this.misMenuTy;
+    }
+    
+    public String getMisUserGrp() {
+    	return this.misUserGrp;
     }
  }

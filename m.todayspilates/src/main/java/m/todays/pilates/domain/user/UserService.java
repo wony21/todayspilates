@@ -19,6 +19,7 @@ public class UserService {
 	public List getUser() {
 		UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
 		return userMapper.getUser();
+		
 	}
 	
 	public Boolean loginUser(String userCd, String userPs) {
@@ -28,6 +29,15 @@ public class UserService {
 		parameter.put("userPs", userPs);
 		List userInfo = userMapper.loginUser(parameter);
 		return userInfo.size() > 0;
+	}
+	
+	public User getUserInfo(String userCd, String userPs) {
+		UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+		Map<String, Object> parameter = new HashMap<String, Object>();
+		parameter.put("userCd", userCd);
+		parameter.put("userPs", userPs);
+		User userInfo = userMapper.getUserInfo(parameter);
+		return userInfo;
 	}
 	
 }

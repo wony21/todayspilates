@@ -22,21 +22,25 @@
  
 	 <http auto-config="true">
         <intercept-url pattern="/login" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+        <intercept-url pattern="/loginFail" access="IS_AUTHENTICATED_ANONYMOUSLY" />
         <intercept-url pattern="/**" access="ROLE_USER" />
         <form-login login-page="/login"
                     username-parameter="id"
-                    password-parameter="pw"    
+                    password-parameter="pw"
                     login-processing-url="/loginProcess"
                     default-target-url="/"
-                    authentication-failure-url="/login"
+                    authentication-failure-url="/loginFail"
                     always-use-default-target="true"
+                    authentication-failure-handler-ref="loginFailureHandler"
                     />
-         
+         <logout logout-url="/logout" logout-success-url="/login"/>
         <session-management>
             <concurrency-control max-sessions="1" expired-url="/login_duplicate"/>
         </session-management>
     </http>
-     
+    
+    <beans:bean id="loginFailureHandler" class="m.todays.pilates.security.CustomAuthenticationFailHandler"/>
+
     <beans:bean class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler"/>
      
     <authentication-manager>

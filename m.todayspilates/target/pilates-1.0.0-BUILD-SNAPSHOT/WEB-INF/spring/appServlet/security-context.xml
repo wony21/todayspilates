@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans:beans xmlns="http://www.springframework.org/schema/security"
-	xmlns:beans="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd">
-
-	<http auto-config="true">
-		<intercept-url pattern="/**" access="ROLE_USER" />
-	</http>
-
+<!-- 
+	<http auto-config="true"> 
+		<intercept-url pattern="/**" access="ROLE_USER" /> 
+	</http> 
 	<authentication-manager>
 		<authentication-provider>
 			<user-service>
@@ -20,26 +18,29 @@
 			</user-service>
 		</authentication-provider>
 	</authentication-manager>
-	
-	<!-- Config 
-	<http auto-config='true' >
+	-->
+ 
+	 <http auto-config="true">
         <intercept-url pattern="/login" access="IS_AUTHENTICATED_ANONYMOUSLY" />
-        <intercept-url pattern="/login_duplicate" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+        <intercept-url pattern="/loginFail" access="IS_AUTHENTICATED_ANONYMOUSLY" />
         <intercept-url pattern="/**" access="ROLE_USER" />
         <form-login login-page="/login"
                     username-parameter="id"
-                    password-parameter="pw"    
+                    password-parameter="pw"
                     login-processing-url="/loginProcess"
-                    default-target-url="/login_success"
-                    authentication-failure-url="/login"
-                    always-use-default-target='true'
+                    default-target-url="/"
+                    authentication-failure-url="/loginFail"
+                    always-use-default-target="true"
+                    authentication-failure-handler-ref="loginFailureHandler"
                     />
-         
+         <logout logout-url="/logout" logout-success-url="/login"/>
         <session-management>
-            <concurrency-control max-sessions="100" expired-url="/login_duplicate"/>
+            <concurrency-control max-sessions="1" expired-url="/login_duplicate"/>
         </session-management>
     </http>
-     
+    
+    <beans:bean id="loginFailureHandler" class="m.todays.pilates.security.CustomAuthenticationFailHandler"/>
+
     <beans:bean class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler"/>
      
     <authentication-manager>
@@ -47,6 +48,5 @@
     </authentication-manager>
      
     <beans:bean id="customAuthenticationProvider" class="m.todays.pilates.security.CustomAuthenticationProvider"/>
-     -->
 
 </beans:beans>
