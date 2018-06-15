@@ -43,6 +43,7 @@
         <session-management>
             <concurrency-control max-sessions="1" expired-url="/login_duplicate"/>
         </session-management>
+        <access-denied-handler error-page="/wrongapproach.jsp" />
     </http>
     
     <beans:bean id="loginFailureHandler" class="m.todays.pilates.security.CustomAuthenticationFailHandler"/>

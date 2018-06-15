@@ -1,4 +1,4 @@
-package m.todays.pilates;
+package m.todays.pilates.controllers;
 
 import java.text.DateFormat;
 import java.util.Date;
