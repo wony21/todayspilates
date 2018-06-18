@@ -23,7 +23,14 @@
 	 <http auto-config="true">
         <intercept-url pattern="/login" access="IS_AUTHENTICATED_ANONYMOUSLY" />
         <intercept-url pattern="/loginFail" access="IS_AUTHENTICATED_ANONYMOUSLY" />
-        <intercept-url pattern="/**" access="ROLE_USER" />
+        <intercept-url pattern="/" access="ROLE_USER,ROLE_TEACHER,ROLE_ADMIN" />
+        <intercept-url pattern="/api/**" access="ROLE_USER,ROLE_TEACHER,ROLE_ADMIN" />
+		<intercept-url pattern="/admin" access="ROLE_ADMIN"/>
+        <intercept-url pattern="/teacher" access="ROLE_TEACHER,ROLE_ADMIN"/>
+        <intercept-url pattern="/member" access="ROLE_USER,ROLE_ADMIN"/>
+        <intercept-url pattern="/admin/**" access="ROLE_ADMIN"/>
+        <intercept-url pattern="/teacher/**" access="ROLE_TEACHER,ROLE_ADMIN"/>
+        <intercept-url pattern="/member/**" access="ROLE_USER,ROLE_ADMIN"/>
         <form-login login-page="/login"
                     username-parameter="id"
                     password-parameter="pw"
@@ -37,6 +44,7 @@
         <session-management>
             <concurrency-control max-sessions="1" expired-url="/login_duplicate"/>
         </session-management>
+        <access-denied-handler error-page="/wrongapproach.jsp" />
     </http>
     
     <beans:bean id="loginFailureHandler" class="m.todays.pilates.security.CustomAuthenticationFailHandler"/>
