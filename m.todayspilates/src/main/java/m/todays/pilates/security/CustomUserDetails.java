@@ -91,13 +91,13 @@ public class CustomUserDetails implements UserDetails {
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
         authorities.add(new SimpleGrantedAuthority(this.userLv));
         if ( this.userLv.equals(CommonData.UserLv.SYSTEM)) { // 관리자는 모든 권한부여
-        	authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-        	authorities.add(new SimpleGrantedAuthority("ROLE_TEACHER"));
-			authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+        	authorities.add(new SimpleGrantedAuthority(CommonData.ROLE.ADMIN));
+        	authorities.add(new SimpleGrantedAuthority(CommonData.ROLE.TEACHER));
+			authorities.add(new SimpleGrantedAuthority(CommonData.ROLE.USER));
 		} else if ( this.userLv.equals(CommonData.UserLv.TEACHER)) { // 선생님은 선생님권한만 부여
-			authorities.add(new SimpleGrantedAuthority("ROLE_TEACHER"));
+			authorities.add(new SimpleGrantedAuthority(CommonData.ROLE.TEACHER));
 		} else { // 나머지는 일반권한만 부여
-			authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+			authorities.add(new SimpleGrantedAuthority(CommonData.ROLE.USER));
 		}
         return authorities;
     }
