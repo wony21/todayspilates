@@ -24,9 +24,18 @@ public class CustomUserDetails implements UserDetails {
     private String misUserGrp;
     private String memberNo;
     private String empNo;
+    private String hpNo;
     
     public String getCompCd() {
 		return compCd;
+	}
+
+	public String getHpNo() {
+		return hpNo;
+	}
+
+	public void setHpNo(String hpNo) {
+		this.hpNo = hpNo;
 	}
 
 	public void setCompCd(String compCd) {
@@ -78,6 +87,7 @@ public class CustomUserDetails implements UserDetails {
     	this.misUserGrp = user.misUserGrp;
     	this.memberNo = user.memberNo;
     	this.empNo = user.empNo;
+    	this.hpNo = user.hpNo;
     }
      
     public CustomUserDetails(String userName, String password)
