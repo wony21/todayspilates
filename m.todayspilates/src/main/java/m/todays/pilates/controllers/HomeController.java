@@ -57,6 +57,11 @@ public class HomeController {
 	public String login(Locale locale, Model model) {
 		return "login";
 	}
+	
+	@RequestMapping(value = "/test", method = RequestMethod.GET)
+	public String test(Locale locale, Model model) {
+		return "admin/test";
+	}
 
 	@RequestMapping(value = "/loginFail", method = RequestMethod.GET)
 	public String loginFail(HttpServletRequest request, Locale locale, Model model) {
@@ -64,4 +69,9 @@ public class HomeController {
 		model.addAttribute("error", error);
 		return "loginFail";
 	}
+	
+//	@RequestMapping(value = "/{path}", method = RequestMethod.GET)
+//	public String requestPath(@PathVariable("path") String path) {
+//		return path;
+//	}
 }
